@@ -112,9 +112,9 @@
 			visibility: visible;
 		}
 	</style>
-<link id='-gd-engine-icon' rel='icon' type='image/png' href='Shake-To-Quack.icon.png' />
-<link rel='apple-touch-icon' href='Shake-To-Quack.apple-touch-icon.png'/>
-<link rel='manifest' href='Shake-To-Quack.manifest.json'>
+<link id='-gd-engine-icon' rel='icon' type='image/png' href='Shake_To_Quack.icon.png' />
+<link rel='apple-touch-icon' href='Shake_To_Quack.apple-touch-icon.png'/>
+<link rel='manifest' href='Shake_To_Quack.manifest.json'>
 
 </head>
 <body>
@@ -136,11 +136,11 @@
 		</div>
 		<div id='status-notice' class='godot' style='display: none;'></div>
 	</div>
-	
-	<script type='text/javascript' src='Shake-To-Quack.js'></script>
+
+	<script type='text/javascript' src='Shake_To_Quack.js'></script>
 	<script type='text/javascript'>//<![CDATA[
 
-		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"Shake-To-Quack","experimentalVK":false,"fileSizes":{"Shake-To-Quack.pck":19105008,"Shake-To-Quack.wasm":18795755},"focusCanvas":true,"gdnativeLibs":[],"serviceWorker":"Shake-To-Quack.service.worker.js"};
+		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"Shake_To_Quack","experimentalVK":false,"fileSizes":{"Shake_To_Quack.pck":19105216,"Shake_To_Quack.wasm":18795755},"focusCanvas":true,"gdnativeLibs":[],"serviceWorker":"Shake_To_Quack.service.worker.js"};
 		var engine = new Engine(GODOT_CONFIG);
 
 		(function() {
@@ -242,36 +242,42 @@
 					initializing = false;
 				}, displayFailureNotice);
 			}
+			function loadScript(url, callback) {
+				var script = document.createElement('script');
+				script.src = url;
+				script.onload = callback;
+				document.head.appendChild(script);
+			  }
+		  
+			function supportsGzip() {
+				// Basic check if gzip is supported (browser dependent)
+				return 'compression' in document.createElement('canvas').toDataURL('image/webp');
+			  }
+		  
+			  if (supportsGzip()) {
+				loadScript('Shake_To_Quack.js.gz', function() {
+				  console.log('Loaded gzipped JS');
+				});
+				loadScript('Shake_To_Quack.wasm.gz', function() {
+				  console.log('Loaded gzipped WebAssembly');
+				});
+				loadScript('Shake_To_Quack.pck.gz', function() {
+					console.log('Loaded gzipped Godot PCK');
+				  });
+			  } else {
+				loadScript('Shake_To_Quack.js', function() {
+				  console.log('Loaded regular JS');
+				});
+				loadScript('Shake_To_Quack.wasm', function() {
+				  console.log('Loaded regular WebAssembly');
+				});
+				loadScript('Shake_To_Quack.pck', function() {
+					console.log('Loaded regular Godot PCK');
+				  });
+			  }
 		})();
 	//]]>
-	function loadScript(url, callback) {
-		var script = document.createElement('script');
-		script.src = url;
-		script.onload = callback;
-		document.head.appendChild(script);
-	  }
-  
-	  function supportsGzip() {
-		// Basic check if gzip is supported (browser dependent)
-		return 'compression' in document.createElement('canvas').toDataURL('image/webp');
-	  }
-  
-	  if (supportsGzip()) {
-		loadScript('game.js.gz', function() {
-		  console.log('Loaded gzipped JS');
-		});
-		loadScript('game.wasm.gz', function() {
-		  console.log('Loaded gzipped WebAssembly');
-		});
-	  } else {
-		loadScript('game.js', function() {
-		  console.log('Loaded regular JS');
-		});
-		loadScript('game.wasm', function() {
-		  console.log('Loaded regular WebAssembly');
-		});
-	  }
-	</script>
+</script>
 </body>
 </html>
 
